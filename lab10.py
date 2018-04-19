@@ -1,3 +1,5 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 # Lucas de Oliveira Silva 220715
 import re
 
@@ -19,7 +21,7 @@ cmds = list(read_ops())
 i = 0
 while i < len(cmds):
     print(texto)
-    operacao = cmds[i].upper()
+    operacao = cmds[i]
     nargs = ops_nargs[operacao]  # Número de parâmetros dessa operação
 
     args = cmds[i + 1:i + nargs]  # Parâmetros da operação
@@ -30,18 +32,11 @@ while i < len(cmds):
         matches = reg.findall(texto)
         for match in matches:
             texto = re.sub(match, match[::-1], texto, 1)
-    else:
-        if operacao == 'R':
-            new_str = args[1]
-        elif operacao == 'D':
-            new_str = ''
+    elif operacao == 'R':
+        texto = re.sub(reg_pal % args[0], args[1], texto, flags=re.IGNORECASE)
+    elif operacao == 'D':
+        texto = re.sub('(?<!\w)%s(\W|$)' % args[0], '', texto, flags=re.IGNORECASE)
+        texto = re.sub('\s+', ' ', texto)
+        texto = re.sub('\s\W*(?=$)', '', texto)
 
-        # Substitui o argumento da operação pela nova string:
-        texto = re.sub(reg_pal % args[0], new_str, texto, flags=re.IGNORECASE)
-
-        if operacao == 'D':
-            texto = re.sub('\s[,\.\?\!\:]', '', texto)
-            texto = re.sub('\s\s+', ' ', texto)
-
-texto = re.sub('\s\s+', ' ', texto)
 print(texto)
