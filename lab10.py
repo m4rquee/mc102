@@ -1,5 +1,3 @@
-#!/usr/local/bin/python
-# -*- coding: utf-8 -*-
 # Lucas de Oliveira Silva 220715
 import re
 
