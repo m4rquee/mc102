@@ -104,7 +104,7 @@ ENV/
 .idea/
 
 # out file
-out.txt
+out.*
 
 # main files
 *main.py
