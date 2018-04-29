@@ -105,3 +105,6 @@ ENV/
 
 # out file
 out.txt
+
+# main files
+*main.py
