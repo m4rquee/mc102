@@ -21,8 +21,10 @@ LARGURA_TABULEIRO = 10
 #   Nova largura, altura e posicao horizontal.
 #
 def atualiza_posicao(l, a, x, desl, rot):
-    # Implementar a funcao e trocar o valor de retorno
-    return l, a, x
+    if rot == 1:
+        l, a = a, l
+
+    return l, a, min(max(x + desl, 0), LARGURA_TABULEIRO - l)
 
 
 # Funcao: encontra_y
@@ -37,8 +39,14 @@ def atualiza_posicao(l, a, x, desl, rot):
 #   este descer o maximo possivel
 #
 def encontra_y(mat, l, x):
-    # Implementar a funcao e trocar o valor de retorno
-    return 0
+    altura_max = 0
+    for j in range(x, x + l):
+        for i in range(10)[::-1]:
+            if mat[i][j] == 1:
+                altura_max = max(i + 1, altura_max)
+                break
+
+    return altura_max
 
 
 # Funcoes: posicao_final_valida
@@ -51,8 +59,7 @@ def encontra_y(mat, l, x):
 #   1 se o bloco naquela posicao estiver contido dentro do tabuleiro, ou 0 caso contrario.
 #
 def posicao_final_valida(a, y):
-    # Implementar a funcao e trocar o valor de retorno
-    return 0
+    return 1 if y + a <= ALTURA_TABULEIRO else 0
 
 
 # Funcoes: posiciona_bloco
@@ -69,10 +76,9 @@ def posicao_final_valida(a, y):
 #   NULL
 #
 def posiciona_bloco(mat, l, a, x, y):
-    pass
-
-
-# Implementar a funcao
+    for i in range(y, y + a):
+        for j in range(x, x + l):
+            mat[i][j] = 1
 
 
 # Funcoes: atualiza_matriz
@@ -86,5 +92,11 @@ def posiciona_bloco(mat, l, a, x, y):
 #   a atualizacao do tabuleiro.
 #
 def atualiza_matriz(mat):
-    # Implementar a funcao e trocar o valor de retorno
-    return 0
+    pontos = 0
+    for i in range(ALTURA_TABULEIRO):
+        while sum(mat[i]) == LARGURA_TABULEIRO:
+            pontos += 1
+            mat[i] = mat[i:] = mat[i + 1:]
+            mat.append([0 for _ in range(10)])
+
+    return pontos
