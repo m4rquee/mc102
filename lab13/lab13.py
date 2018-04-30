@@ -9,12 +9,31 @@
 # Descrição:
 #   Deve inserir as informações do parametro 'jogo' na tabela.
 #   OBSERVAÇÃO: nesse momento não é necessário ordenar a tabela, apenas inserir as informações.
+from functools import cmp_to_key
+
+
 def atualizaTabela(tabela, jogo):
-    pass
+    vals = jogo.split()
+    gols = (int(vals[1]), int(vals[-2]))
+    jog1 = filter(lambda jogador: jogador[0] == vals[0], tabela).__next__()
+    jog2 = filter(lambda jogador: jogador[0] == vals[-1], tabela).__next__()
 
+    # Adiciona pontos
+    jog1[1] += 1 if gols[0] == gols[1] else (3 if gols[0] > gols[1] else 0)
+    jog2[1] += 1 if gols[0] == gols[1] else (3 if gols[1] > gols[0] else 0)
 
-#  -- INSIRA SEU CÓDIGO AQUI -- #
-# *******************************************************************************
+    # Adiciona vitorias
+    jog1[2] += gols[0] > gols[1]
+    jog2[2] += gols[1] > gols[0]
+
+    # Adiciona saldo
+    jog1[3] += gols[0] - gols[1]
+    jog2[3] += gols[1] - gols[0]
+
+    # Adiciona gols pros
+    jog1[4] += gols[0]
+    jog2[4] += gols[1]
+
 
 # *******************************************************************************
 # Funcao: comparaTimes
@@ -27,11 +46,13 @@ def atualizaTabela(tabela, jogo):
 #   retorna 1, se o time1>time2, retorna -1, se time1<time2, e retorna 0, se time1=time2
 #   Observe que time1>time2=true significa que o time1 deve estar em uma posição melhor do que o time2 na tabela.
 def comparaTimes(time1, time2):
-    pass
+    for i in range(1, len(time1)):
+        if time1[i] > time2[i]:
+            return 1
+        elif time1[i] < time2[i]:
+            return -1
 
-
-#  -- INSIRA SEU CÓDIGO AQUI -- #
-# *******************************************************************************
+    return 0
 
 
 # *******************************************************************************
@@ -44,11 +65,7 @@ def comparaTimes(time1, time2):
 #   Deve ordenar a tabela com campeonato de acordo com as especificaçoes do lab.
 #
 def ordenaTabela(tabela):
-    pass
-
-
-#  -- INSIRA SEU CÓDIGO AQUI -- #
-# *******************************************************************************
+    tabela = tabela.sort(key=cmp_to_key(comparaTimes), reverse=True)
 
 
 # *******************************************************************************
@@ -60,6 +77,5 @@ def ordenaTabela(tabela):
 # Descrição:
 #   Deve imprimir a tabela do campeonato de acordo com as especificações do lab.
 def imprimeTabela(tabela):
-    pass
-#  -- INSIRA SEU CÓDIGO AQUI -- #
-# *******************************************************************************
+    for jog in tabela:
+        print('%s, %i, %i, %i, %i' % tuple(jog))
