@@ -1,6 +1,5 @@
 # Lucas de Oliveira Silva 220715
-m, n = (int(i) for i in input().split())
-ites = int(input())
+m, n, ites = *(int(i) for i in input().split()), int(input())
 grade = {l: dict(enumerate(input().split())) for l in range(m)}
 regras = {'0': lambda viz: '1' if viz[0] == 2 else '0',
           '1': lambda viz: '2' if viz[1] >= 1 else '1',
