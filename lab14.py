@@ -14,28 +14,27 @@ def busca(v):
         aux = ras[meio]
 
         if v == aux:
-            print(' '.join(map(str, inds)))
-            return True, meio
+            return True, meio, inds
 
         if ras_ord == 'c':
             l, r = (meio, r) if v > aux else (l, meio)
         elif ras_ord == 'd':
             l, r = (meio, r) if v < aux else (l, meio)
 
-        if l == r:
-            print(' '.join(map(str, inds)))
-            return False, meio
+        if r - l <= 1:
+            return False, meio, inds
 
 
-def print_ras():
-    print(' '.join(map(str, ras)))
+def print_vets(vet):
+    print(' '.join(map(str, vet)))
 
 
 def busca_cmd():
     global ra, achou, pos
     if ras_ord:
         ra = int(cmd[1])
-        achou, pos = busca(ra)
+        achou, pos, inds = busca(ra)
+        print_vets(inds)
         if achou:
             print(ra, ' esta na posicao: ', pos)
         else:
@@ -58,11 +57,24 @@ def in_cmd():
                 ras.append(ra)
                 return
 
-        achou, pos = busca(ra)
+        achou, pos, _ = busca(ra)
         if achou:
             print('Aluno ja matriculado na turma!')
         else:
             ras.insert(pos, ra)
+
+
+def rem_cmd():
+    if len(ras) == 0:
+        print('Nao ha alunos cadastrados na turma!')
+        return
+
+    ra = int(cmd[1])
+    try:
+        pos = ras.index(ra)
+        del ras[pos]
+    except Exception:
+        print("Aluno nao matriculado na turma!")
 
 
 while True:
@@ -72,27 +84,16 @@ while True:
 
     cmd = cmd.split()
     if cmd[0] == 'p':
-        print_ras()
+        print_vets(ras)
     elif cmd[0] == 'c':
         ras.sort()
-        print_ras()
         ras_ord = 'c'
     elif cmd[0] == 'd':
         ras.sort(reverse=True)
-        print_ras()
         ras_ord = 'd'
     elif cmd[0] == 'b':
         busca_cmd()
     elif cmd[0] == 'i':
         in_cmd()
     elif cmd[0] == 'r':
-        if len(ras):
-            print('Nao ha alunos cadastrados na turma!')
-            continue
-
-        ra = int(cmd[1])
-        try:
-            pos = ras.index(ra)
-            del ras[pos]
-        except Exception:
-            print("Aluno nao matriculado na turma!")
+        rem_cmd()
