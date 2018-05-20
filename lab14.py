@@ -5,71 +5,65 @@ ras = [int(v) for v in input().split()]
 ras_ord = None
 
 
-def busca(v):
-    l, r = 0, len(ras)
+def busca(ra):
+    e, d = 0, len(ras) - 1
     inds = []
-    while True:
-        meio = (l + r) // 2
+    while e <= d:
+        meio = (e + d) // 2
         inds.append(meio)
         aux = ras[meio]
 
-        if v == aux:
+        if ra == aux:
             return True, meio, inds
 
         if ras_ord == 'c':
-            l, r = (meio, r) if v > aux else (l, meio)
+            e, d = (meio + 1, d) if ra > aux else (e, meio - 1)
         elif ras_ord == 'd':
-            l, r = (meio, r) if v < aux else (l, meio)
+            e, d = (meio + 1, d) if ra < aux else (e, meio - 1)
 
-        if r - l <= 1:
-            return False, meio, inds
+    if e == len(ras) or d == len(ras):
+        meio = len(ras)
 
-
-def print_vets(vet):
-    print(' '.join(map(str, vet)))
+    return False, meio, inds
 
 
-def busca_cmd():
-    global ra, achou, pos
+def print_array(vet):
+    if len(vet) > 0:
+        print(' '.join(map(str, vet)), '')
+
+
+def busca_cmd(ra):
     if ras_ord:
-        ra = int(cmd[1])
         achou, pos, inds = busca(ra)
-        print_vets(inds)
+        print_array(inds)
         if achou:
-            print(ra, ' esta na posicao: ', pos)
+            print(ra, 'esta na posicao:', pos)
         else:
-            print(ra, ' nao esta na lista!')
+            print(ra, 'nao esta na lista!')
     else:
         print('Vetor nao ordenado!')
 
 
-def in_cmd():
-    global ra, achou, pos
+def in_cmd(ra):
     if len(ras) == 150:
         print('Limite de vagas excedido!')
+        return
+
+    if ra in ras:
+        print('Aluno ja matriculado na turma!')
     else:
-        ra = int(cmd[1])
-
-        if not ras_ord:
-            if not ra in ras:
-                print('Aluno ja matriculado na turma!')
-            else:
-                ras.append(ra)
-                return
-
-        achou, pos, _ = busca(ra)
-        if achou:
-            print('Aluno ja matriculado na turma!')
-        else:
-            ras.insert(pos, ra)
+        ras.append(ra)
+        if ras_ord == 'c':
+            ras.sort()
+        elif ras_ord == 'd':
+            ras.sort(reverse=True)
 
 
-def rem_cmd():
+def rem_cmd(ra):
     if len(ras) == 0:
         print('Nao ha alunos cadastrados na turma!')
         return
 
-    ra = int(cmd[1])
     try:
         pos = ras.index(ra)
         del ras[pos]
@@ -84,7 +78,7 @@ while True:
 
     cmd = cmd.split()
     if cmd[0] == 'p':
-        print_vets(ras)
+        print_array(ras)
     elif cmd[0] == 'c':
         ras.sort()
         ras_ord = 'c'
@@ -92,8 +86,8 @@ while True:
         ras.sort(reverse=True)
         ras_ord = 'd'
     elif cmd[0] == 'b':
-        busca_cmd()
+        busca_cmd(int(cmd[1]))
     elif cmd[0] == 'i':
-        in_cmd()
+        in_cmd(int(cmd[1]))
     elif cmd[0] == 'r':
-        rem_cmd()
+        rem_cmd(int(cmd[1]))
