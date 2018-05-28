@@ -1,4 +1,4 @@
-from math import ceil
+import math
 
 n = int(input())
 db = [input().split() for i in range(n)]
@@ -19,5 +19,5 @@ def read_line():
         line = input()
 
 
-result = [ceil(esp[q[0]] * float(q[1])) for q in read_line()]
+result = [math.ceil(esp[q[0]] * float(q[1])) for q in read_line()]
 print(*result, sep='\n')
