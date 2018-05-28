@@ -1,17 +1,5 @@
 #!/usr/bin/env python3
 
-# import sys, io
-#
-# # for l in sys.stdin:
-# #     print(l)
-#
-# test = sys.stdin.read()
-# print(test)
-#
-# sys.stdin = io.StringIO(test + 'asd')
-# print(sys.stdin.read())
-
-
 # Funcao: pertence
 #
 # Parametros:
