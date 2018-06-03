@@ -1,25 +1,11 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# remove all
+*
 
-# pyenv
-.python-version
+# add back
+!.gitignore
+!lab*.py
+!lab*/
+!lab*/lab*.py
 
-# dotenv
-.env
-
-# virtualenv
-.venv
-venv/
-ENV/
-
-# editors
-.idea/
-.vscode/
-
-# out file
-out.*
-
-# main files
-*main.py
+# remove mains
+lab*/lab*_main.py
