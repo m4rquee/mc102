@@ -74,8 +74,8 @@ class Repositorio:
     # Este método recebe o parâmetro aluno e altera, no repositório, os dados do aluno com RA igual a aluno.ra
     def alterar(self, aluno):
         try:
-            velho = list(self.filtro(aluno.ra))[0]
-        except IndexError:
+            velho = next(self.filtro(aluno.ra))
+        except StopIteration:
             raise RAInvalido()
         checa_aluno(aluno)
 
@@ -88,8 +88,8 @@ class Repositorio:
     # Este método recebe o parâmetro ra e deve retornar o aluno que possui o RA informado como parâmetro
     def achaAluno(self, ra):
         try:
-            return list(self.filtro(ra))[0]
-        except IndexError:
+            return next(self.filtro(ra))
+        except StopIteration:
             raise RAInvalido()
 
     # Este método recebe o parâmetro ra e deve remover o aluno correspondente do repositório
