@@ -11,6 +11,17 @@ def make_chain(c, pos):
     return c
 
 
+def sort(l):
+    for i in range(1, len(l)):
+        curr = l[i]
+
+        j = i - 1
+        while curr < l[j] and j >= 0:
+            l[j + 1] = l[j]
+            j -= 1
+        l[j + 1] = curr
+
+
 chain = list(make_chain(set([]), k))
-chain.sort()
+sort(chain)
 print(' '.join(map(str, [k] + chain)))
